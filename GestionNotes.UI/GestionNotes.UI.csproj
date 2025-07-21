@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>GestionNotes.UI</AssemblyName>
+    <RootNamespace>GestionNotes.UI</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestionNotes.BLL\GestionNotes.BLL.csproj" />
+    <ProjectReference Include="..\GestionNotes.BO\GestionNotes.BO.csproj" />
+    <ProjectReference Include="..\GestionNotes.DAL\GestionNotes.DAL.csproj" />
+  </ItemGroup>
+
+</Project>
