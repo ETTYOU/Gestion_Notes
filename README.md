@@ -1,87 +1,81 @@
 # Gestion_Notes
 
 ## Description
-This project is a C# Windows Forms application designed for managing student grades (notes) within an academic institution. It provides functionalities for managing students, courses (matières), and grades, as well as generating statistics.
+Ce projet est une application C# Windows Forms conçue pour la gestion des notes des étudiants au sein d'un établissement académique. Il offre des fonctionnalités pour gérer les étudiants, les matières et les notes, ainsi que pour générer des statistiques.
 
-## Features
--   **Student Management:** Add, edit, delete, and view student information.
--   **Course Management:** Manage academic courses and their coefficients.
--   **Grade Entry:** Input and update student grades for various courses.
--   **Statistical Reports:** View statistical data related to student performance (e.g., average grades).
--   **User Authentication:** (Implied by `Utilisateur` and `Role` tables) Secure access to the application.
+---
 
-## Technologies Used
--   **Frontend:** C# Windows Forms (.NET)
--   **Backend/Logic:** C# Class Libraries (.NET)
--   **Database:** SQL Server (using `System.Data.SqlClient`)
--   **Language:** C#
+## Fonctionnalités 🚀
+- **Gestion des Étudiants :** Ajouter, modifier, supprimer et consulter les informations des étudiants.
+- **Gestion des Matières :** Gérer les matières académiques et leurs coefficients.
+- **Saisie des Notes :** Saisir et mettre à jour les notes des étudiants pour les différentes matières.
+- **Rapports Statistiques :** Consulter les données statistiques relatives aux performances des étudiants (ex: moyennes des notes).
+- **Authentification des Utilisateurs :** (Implicite par les tables `Utilisateur` et `Role`) Accès sécurisé à l'application.
 
-## Getting Started
+---
 
-### Prerequisites
-Before you begin, ensure you have the following installed:
--   **Visual Studio 2022** (or a compatible version) with .NET desktop development workload.
--   **.NET 8.0 SDK** (or the target framework version used in the project).
--   **SQL Server** (e.g., SQL Server Express, SQL Server Developer Edition) installed and running.
--   **SQL Server Management Studio (SSMS)** or a similar tool to execute SQL scripts.
+## Technologies Utilisées 🛠️
+- **Frontend :** C# Windows Forms (.NET)
+- **Backend/Logique :** Bibliothèques de classes C# (.NET)
+- **Base de Données :** SQL Server (via `System.Data.SqlClient`)
+- **Langage :** C#
+
+---
+
+## Démarrage
+
+### Prérequis
+Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
+- **Visual Studio 2022** (ou une version compatible) avec la charge de travail "Développement desktop .NET".
+- **SDK .NET 8.0** (ou la version du framework cible utilisée dans le projet).
+- **SQL Server** (par exemple, SQL Server Express, SQL Server Developer Edition) installé et en cours d'exécution.
+- **SQL Server Management Studio (SSMS)** ou un outil similaire pour exécuter des scripts SQL.
 
 ### Installation
 
-1.  **Clone the repository:**
+1.  **Clonez le dépôt :**
     ```bash
-    git clone https://github.com/YOUR_USERNAME/Gestion_Notes.git
+    git clone [https://github.com/VOTRE_NOM_UTILISATEUR/Gestion_Notes.git](https://github.com/VOTRE_NOM_UTILISATEUR/Gestion_Notes.git)
     cd Gestion_Notes
     ```
-    *(Replace `YOUR_USERNAME` with your GitHub username and `Gestion_Notes` with your repository name if different)*
+    *(Remplacez `VOTRE_NOM_UTILISATEUR` par votre nom d'utilisateur GitHub et `Gestion_Notes` par le nom de votre dépôt s'il est différent)*
 
-2.  **Database Setup:**
-    a.  Open **SQL Server Management Studio (SSMS)** and connect to your SQL Server instance.
-    b.  Create a new database (e.g., `GestionNotesDB`).
-    c.  Open the `SQLQuery2.sql` file located in the project root (`Gestion_Notes/SQLQuery2.sql`) in SSMS.
-    d.  Execute the script against your newly created database. This script will create the necessary tables and populate them with initial data.
+2.  **Configuration de la Base de Données :**
+    a.  Ouvrez **SQL Server Management Studio (SSMS)** et connectez-vous à votre instance SQL Server.
+    b.  Créez une nouvelle base de données (ex: `GestionNotesDB`).
+    c.  Ouvrez le fichier `SQLQuery2.sql` situé à la racine du projet (`Gestion_Notes/SQLQuery2.sql`) dans SSMS.
+    d.  Exécutez le script sur la base de données que vous venez de créer. Ce script créera les tables nécessaires et les remplira avec des données initiales.
 
-3.  **Configure Database Connection:**
-    a.  Open the `Gestion_Notes.sln` solution file in Visual Studio.
-    b.  Locate the `ConnexionDB.cs` file in the `GestionNotes.DAL` project.
-    c.  Update the connection string in `ConnexionDB.cs` to point to your SQL Server instance and the `GestionNotesDB` database.
-        *(Example connection string - adjust as per your SQL Server configuration)*
+3.  **Configurer la Connexion à la Base de Données :**
+    a.  Ouvrez le fichier de solution `Gestion_Notes.sln` dans Visual Studio.
+    b.  Localisez le fichier `ConnexionDB.cs` dans le projet `GestionNotes.DAL`.
+    c.  Mettez à jour la chaîne de connexion dans `ConnexionDB.cs` pour qu'elle pointe vers votre instance SQL Server et la base de données `GestionNotesDB`.
+        *(Exemple de chaîne de connexion - à ajuster selon votre configuration SQL Server)*
         ```csharp
-        // In GestionNotes.DAL/ConnexionDB.cs
+        // Dans GestionNotes.DAL/ConnexionDB.cs
         public static SqlConnection GetConnection()
         {
-            // Replace 'YOUR_SERVER_NAME' with your SQL Server instance name (e.g., DESKTOP-ABCDEF\SQLEXPRESS)
-            // Replace 'GestionNotesDB' with the name of your database
-            string connectionString = "Data Source=YOUR_SERVER_NAME;Initial Catalog=GestionNotesDB;Integrated Security=True;TrustServerCertificate=True";
+            // Remplacez 'VOTRE_NOM_SERVEUR' par le nom de votre instance SQL Server (ex: DESKTOP-ABCDEF\SQLEXPRESS)
+            // Remplacez 'GestionNotesDB' par le nom de votre base de données
+            string connectionString = "Data Source=VOTRE_NOM_SERVEUR;Initial Catalog=GestionNotesDB;Integrated Security=True;TrustServerCertificate=True";
             return new SqlConnection(connectionString);
         }
         ```
-        *Note: If you are using SQL Server Authentication, your connection string will look different (e.g., `User ID=your_user;Password=your_password`).*
+        *Note : Si vous utilisez l'authentification SQL Server, votre chaîne de connexion sera différente (ex: `User ID=votre_utilisateur;Password=votre_mot_de_passe`).*
 
-4.  **Build the Solution:**
-    a.  In Visual Studio, go to `Build` > `Build Solution` (or press `Ctrl+Shift+B`).
-    b.  Ensure there are no build errors.
+4.  **Compiler la Solution :**
+    a.  Dans Visual Studio, allez dans `Générer` > `Générer la solution` (ou appuyez sur `Ctrl+Maj+B`).
+    b.  Assurez-vous qu'il n'y a pas d'erreurs de compilation.
 
-### Running the Application
-1.  After a successful build, you can run the application by pressing `F5` or by going to `Debug` > `Start Debugging`.
-2.  The application's main form (likely a login screen or main dashboard) should appear.
+### Exécuter l'Application
+1.  Après une compilation réussie, vous pouvez lancer l'application en appuyant sur `F5` ou en allant dans `Déboguer` > `Démarrer le débogage`.
+2.  Le formulaire principal de l'application (probablement un écran de connexion ou un tableau de bord) devrait apparaître.
 
-## Usage
-(This section can be expanded with more details on how to use the application's features once it's running.)
--   Log in with the provided test credentials (check `SQLQuery2.sql` for initial user data).
--   Navigate through the different forms (e.g., Student Management, Grade Entry, Statistics) to perform operations.
+---
 
-## Contributing
-Contributions are welcome! If you'd like to contribute, please follow these steps:
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature/YourFeature`).
-3.  Make your changes.
-4.  Commit your changes (`git commit -m 'Add some feature'`).
-5.  Push to the branch (`git push origin feature/YourFeature`).
-6.  Open a Pull Request.
+## Utilisation
+(Cette section peut être complétée avec plus de détails sur l'utilisation des fonctionnalités de l'application une fois celle-ci lancée.)
+- Connectez-vous avec les identifiants de test fournis (vérifiez le fichier `SQLQuery2.sql` pour les données utilisateur initiales).
+- Naviguez à travers les différents formulaires (ex: Gestion des Étudiants, Saisie des Notes, Statistiques) pour effectuer des opérations.
 
-## License
-This project is licensed under the [MIT License](LICENSE) - see the `LICENSE` file for details.
-*(You might need to create a `LICENSE` file in your project root if you don't have one.)*
-
-## Contact
-For any questions or inquiries, please open an issue on this GitHub repository.
+---
