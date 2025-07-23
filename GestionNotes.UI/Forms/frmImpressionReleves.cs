@@ -39,7 +39,8 @@ namespace ISGA.GestionNotes.UI.Forms
                 int etudiantId = (int)cmbEtudiant.SelectedValue;
                 Etudiant? etudiant = _gestionAcademiqueService.GetEtudiant(etudiantId);
                 List<Note> notes = _gestionNotesService.GetAllNotes().Where(n => n.ID_Etudiant == etudiantId).ToList();
-                double moyenne = _gestionNotesService.CalculerMoyenne(etudiantId);
+                List<Matiere> matieres = _gestionAcademiqueService.GetMatieresByFiliere(etudiant!.ID_Filiere);
+                double moyenne = _gestionNotesService.CalculerMoyenne(etudiantId, matieres);
 
                 rtbReleve.Clear();
                 if (etudiant != null)
@@ -48,7 +49,8 @@ namespace ISGA.GestionNotes.UI.Forms
                     rtbReleve.AppendText("----------------------------------------\n");
                     foreach (var note in notes)
                     {
-                        rtbReleve.AppendText($"Matière: {note.Matiere}, Note: {note.Valeur}, Date: {note.DateNote.ToShortDateString()}\n");
+                        Matiere matiere = _gestionAcademiqueService.GetMatiere(note.ID_Matiere);
+                        rtbReleve.AppendText($"Matière: {matiere.NomMatiere}, Note: {note.Valeur}, Date: {note.DateNote.ToShortDateString()}\n");
                     }
                     rtbReleve.AppendText("----------------------------------------\n");
                     rtbReleve.AppendText($"Moyenne Générale: {moyenne:F2}\n");

@@ -31,12 +31,13 @@ namespace ISGA.GestionNotes.UI.Forms
         private void LoadStatistiques()
         {
             var etudiants = _gestionAcademiqueService.GetAllEtudiants();
+            var matieres = _gestionAcademiqueService.GetAllMatieres();
             var statistiques = etudiants.Select(e => new
             {
                 e.Matricule,
                 e.Nom,
                 e.Prenom,
-                Moyenne = _gestionNotesService.CalculerMoyenne(e.ID_Etudiant)
+                Moyenne = (double)_gestionNotesService.CalculerMoyenne(e.ID_Etudiant, matieres.Where(m => m.ID_Filiere == e.ID_Filiere).ToList())
             }).ToList();
 
             dgvStatistiques.DataSource = statistiques;

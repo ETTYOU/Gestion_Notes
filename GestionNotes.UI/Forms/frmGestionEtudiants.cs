@@ -56,7 +56,7 @@ namespace ISGA.GestionNotes.UI.Forms
                 Nom = txtNom.Text,
                 Prenom = txtPrenom.Text,
                 DateNaissance = dtpDateNaissance.Value,
-                ID_Filiere = (int)cmbFiliere.SelectedValue
+                ID_Filiere = cmbFiliere.SelectedValue != null ? (int)cmbFiliere.SelectedValue : 0
             };
             _gestionAcademiqueService.AddEtudiant(newEtudiant);
             LoadEtudiants();
@@ -72,7 +72,7 @@ namespace ISGA.GestionNotes.UI.Forms
                 selectedEtudiant.Nom = txtNom.Text;
                 selectedEtudiant.Prenom = txtPrenom.Text;
                 selectedEtudiant.DateNaissance = dtpDateNaissance.Value;
-                selectedEtudiant.ID_Filiere = (int)cmbFiliere.SelectedValue;
+                selectedEtudiant.ID_Filiere = cmbFiliere.SelectedValue != null ? (int)cmbFiliere.SelectedValue : 0;
                 _gestionAcademiqueService.UpdateEtudiant(selectedEtudiant);
                 LoadEtudiants();
                 ClearForm();

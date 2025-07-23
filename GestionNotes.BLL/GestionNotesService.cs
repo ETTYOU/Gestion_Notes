@@ -38,14 +38,30 @@ namespace ISGA.GestionNotes.BLL
             _noteDAO.DeleteNote(id);
         }
 
-        public double CalculerMoyenne(int idEtudiant)
+        public double CalculerMoyenne(int idEtudiant, List<Matiere> matieres)
         {
             var notes = _noteDAO.GetAllNotes().Where(n => n.ID_Etudiant == idEtudiant).ToList();
             if (notes.Any())
             {
-                return notes.Average(n => n.Valeur);
+                double totalPoints = 0;
+                double totalCoefficients = 0;
+                foreach (var note in notes)
+                {
+                    Matiere? matiere = matieres.FirstOrDefault(m => m.ID_Matiere == note.ID_Matiere);
+                    if (matiere != null)
+                    {
+                        totalPoints += note.Valeur * (double)matiere.Coefficient;
+                        totalCoefficients += (double)matiere.Coefficient;
+                    }
+                }
+                return totalCoefficients > 0 ? totalPoints / totalCoefficients : 0;
             }
             return 0;
+        }
+
+        public int GetMatiereCount()
+        {
+            return _noteDAO.GetDistinctMatiereCount();
         }
     }
 }

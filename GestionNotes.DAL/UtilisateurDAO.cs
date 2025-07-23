@@ -99,5 +99,26 @@ namespace ISGA.GestionNotes.DAL
             }
             return utilisateurs;
         }
+
+        public int GetUtilisateurCount()
+        {
+            using (var connection = ConnexionDB.GetConnection())
+            {
+                var command = new SqlCommand("SELECT COUNT(*) FROM Utilisateurs", connection);
+                connection.Open();
+                return (int)command.ExecuteScalar();
+            }
+        }
+
+        public int GetUtilisateurCountByRole(int roleId)
+        {
+            using (var connection = ConnexionDB.GetConnection())
+            {
+                var command = new SqlCommand("SELECT COUNT(*) FROM Utilisateurs WHERE ID_Role = @ID_Role", connection);
+                command.Parameters.AddWithValue("@ID_Role", roleId);
+                connection.Open();
+                return (int)command.ExecuteScalar();
+            }
+        }
     }
 }

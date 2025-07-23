@@ -11,9 +11,9 @@ namespace ISGA.GestionNotes.DAL
         {
             using (var connection = ConnexionDB.GetConnection())
             {
-                var command = new SqlCommand("INSERT INTO Notes (ID_Etudiant, Matiere, Valeur, DateNote) VALUES (@ID_Etudiant, @Matiere, @Valeur, @DateNote)", connection);
+                var command = new SqlCommand("INSERT INTO Notes (ID_Etudiant, ID_Matiere, Valeur, DateNote) VALUES (@ID_Etudiant, @ID_Matiere, @Valeur, @DateNote)", connection);
                 command.Parameters.AddWithValue("@ID_Etudiant", note.ID_Etudiant);
-                command.Parameters.AddWithValue("@Matiere", note.Matiere);
+                command.Parameters.AddWithValue("@ID_Matiere", note.ID_Matiere);
                 command.Parameters.AddWithValue("@Valeur", note.Valeur);
                 command.Parameters.AddWithValue("@DateNote", note.DateNote);
                 connection.Open();
@@ -36,9 +36,9 @@ namespace ISGA.GestionNotes.DAL
                         {
                             ID_Note = (int)reader["ID_Note"],
                             ID_Etudiant = (int)reader["ID_Etudiant"],
-                            Matiere = (string)reader["Matiere"],
-                            Valeur = (double)reader["Valeur"],
-                            DateNote = (DateTime)reader["DateNote"]
+                            ID_Matiere = (int)reader["ID_Matiere"],
+                            Valeur = Convert.ToDouble(reader["ValeurNote"]),
+                            DateNote = (DateTime)reader["DateSaisie"]
                         };
                     }
                 }
@@ -61,9 +61,9 @@ namespace ISGA.GestionNotes.DAL
                         {
                             ID_Note = (int)reader["ID_Note"],
                             ID_Etudiant = (int)reader["ID_Etudiant"],
-                            Matiere = (string)reader["Matiere"],
-                            Valeur = (double)reader["Valeur"],
-                            DateNote = (DateTime)reader["DateNote"]
+                            ID_Matiere = (int)reader["ID_Matiere"],
+                            Valeur = Convert.ToDouble(reader["ValeurNote"]),
+                            DateNote = (DateTime)reader["DateSaisie"]
                         });
                     }
                 }
@@ -75,9 +75,9 @@ namespace ISGA.GestionNotes.DAL
         {
             using (var connection = ConnexionDB.GetConnection())
             {
-                var command = new SqlCommand("UPDATE Notes SET ID_Etudiant = @ID_Etudiant, Matiere = @Matiere, Valeur = @Valeur, DateNote = @DateNote WHERE ID_Note = @ID_Note", connection);
+                var command = new SqlCommand("UPDATE Notes SET ID_Etudiant = @ID_Etudiant, ID_Matiere = @ID_Matiere, Valeur = @Valeur, DateNote = @DateNote WHERE ID_Note = @ID_Note", connection);
                 command.Parameters.AddWithValue("@ID_Etudiant", note.ID_Etudiant);
-                command.Parameters.AddWithValue("@Matiere", note.Matiere);
+                command.Parameters.AddWithValue("@ID_Matiere", note.ID_Matiere);
                 command.Parameters.AddWithValue("@Valeur", note.Valeur);
                 command.Parameters.AddWithValue("@DateNote", note.DateNote);
                 command.Parameters.AddWithValue("@ID_Note", note.ID_Note);
@@ -94,6 +94,16 @@ namespace ISGA.GestionNotes.DAL
                 command.Parameters.AddWithValue("@ID_Note", id);
                 connection.Open();
                 command.ExecuteNonQuery();
+            }
+        }
+
+        public int GetDistinctMatiereCount()
+        {
+            using (var connection = ConnexionDB.GetConnection())
+            {
+                var command = new SqlCommand("SELECT COUNT(DISTINCT ID_Matiere) FROM Notes", connection);
+                connection.Open();
+                return (int)command.ExecuteScalar();
             }
         }
     }

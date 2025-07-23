@@ -18,6 +18,10 @@ namespace ISGA.GestionNotes.BLL
 
             return null;
         }
-        // ... autres logiques métier
+        public int GetUtilisateurCountByRole(int roleId)
+        {
+            var utilisateurDAO = new UtilisateurDAO();
+            return utilisateurDAO.GetUtilisateurCountByRole(roleId);
+        }
     }
 }

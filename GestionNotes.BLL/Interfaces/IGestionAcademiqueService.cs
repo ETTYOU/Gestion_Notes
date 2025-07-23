@@ -1,4 +1,5 @@
-using System;
+using ISGA.GestionNotes.BO;
+using System.Collections.Generic;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace GestionNotes.BLL.Interfaces
 {
     public interface IGestionAcademiqueService
     {
-        // Define methods for academic management here
+        List<Matiere> GetMatieresByFiliere(int idFiliere);
+        Matiere? GetMatiere(int id);
+        List<Matiere> GetAllMatieres();
     }
 }

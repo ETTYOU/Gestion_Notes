@@ -88,5 +88,15 @@ namespace ISGA.GestionNotes.DAL
                 command.ExecuteNonQuery();
             }
         }
+
+        public int GetFiliereCount()
+        {
+            using (var connection = ConnexionDB.GetConnection())
+            {
+                var command = new SqlCommand("SELECT COUNT(*) FROM Filieres", connection);
+                connection.Open();
+                return (int)command.ExecuteScalar();
+            }
+        }
     }
 }

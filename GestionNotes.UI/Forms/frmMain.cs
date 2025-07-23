@@ -1,54 +1,113 @@
-
+using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ISGA.GestionNotes.UI.Forms
 {
     public partial class frmMain : Form
     {
+        private Button? currentActiveButton;
+
         public frmMain()
         {
             InitializeComponent();
-            this.FormClosing += new FormClosingEventHandler(frmMain_FormClosing);
+            this.Text = "Gestion des Notes ISGA";
+            this.WindowState = FormWindowState.Maximized;
+            this.MinimumSize = new Size(1000, 600);
+
+            // Attach event handlers
+            btnTableauDeBord.Click += new EventHandler(btnSidebar_Click);
+            btnGestionEtudiants.Click += new EventHandler(btnSidebar_Click);
+            btnGestionFilieres.Click += new EventHandler(btnSidebar_Click);
+            btnSaisieNotes.Click += new EventHandler(btnSidebar_Click);
+            btnImpressionReleves.Click += new EventHandler(btnSidebar_Click);
+            btnStatistiques.Click += new EventHandler(btnSidebar_Click);
+            btnQuitter.Click += new EventHandler(btnSidebar_Click);
+
+            // Set initial active button
+            ActivateButton(btnTableauDeBord);
+
+            // Initialize BLL services
+            var gestionAcademiqueService = new GestionNotes.BLL.GestionAcademiqueService();
+            var gestionUtilisateurService = new GestionNotes.BLL.GestionUtilisateurService();
+            var gestionNotesService = new GestionNotes.BLL.GestionNotesService();
+
+            // Populate dashboard content values from database
+            lblValueEtudiants.Text = gestionAcademiqueService.GetEtudiantCount().ToString();
+            lblValueFilieres.Text = gestionAcademiqueService.GetFiliereCount().ToString();
+            // Assuming Role ID 2 is for Teachers/Enseignants. Adjust if necessary.
+            lblValueUtilisateurs.Text = gestionUtilisateurService.GetUtilisateurCountByRole(2).ToString();
+            lblValueNotes.Text = gestionNotesService.GetMatiereCount().ToString();
         }
 
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        private void ActivateButton(Button clickedButton)
         {
-            Application.Exit();
+            // Reset previous active button style
+            if (currentActiveButton != null)
+            {
+                currentActiveButton.BackColor = Color.White;
+                currentActiveButton.ForeColor = Color.FromArgb(51, 51, 51); // Dark gray
+            }
+
+            // Set new active button style
+            clickedButton.BackColor = Color.FromArgb(227, 6, 19); // Red
+            clickedButton.ForeColor = Color.White;
+            currentActiveButton = clickedButton;
         }
 
-        private void gestionEtudiantsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowFormInPanel(Form formToShow)
         {
-            frmGestionEtudiants frm = new frmGestionEtudiants();
-            frm.Show();
+            mainContentPanel.Controls.Clear(); // Clear existing controls
+            formToShow.TopLevel = false; // Set the form to not be a top-level window
+            formToShow.FormBorderStyle = FormBorderStyle.None; // Remove border
+            formToShow.Dock = DockStyle.Fill; // Fill the panel
+            mainContentPanel.Controls.Add(formToShow); // Add the form to the panel
+            formToShow.Show(); // Show the form
         }
 
-        private void gestionFilieresToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnSidebar_Click(object? sender, EventArgs e)
         {
-            frmGestionFilieres frm = new frmGestionFilieres();
-            frm.Show();
-        }
+            if (sender is Button clickedButton)
+            {
+                ActivateButton(clickedButton);
 
-        private void saisieNotesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmSaisieNotes frm = new frmSaisieNotes();
-            frm.Show();
-        }
+                // Hide dashboard elements
+                lblWelcomeTitle.Visible = false;
+                lblWelcomeSubtitle.Visible = false;
+                flowLayoutPanelStats.Visible = false;
 
-        private void impressionRelevesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmImpressionReleves frm = new frmImpressionReleves();
-            frm.Show();
-        }
-
-        private void statistiquesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmStatistiques frm = new frmStatistiques();
-            frm.Show();
-        }
-
-        private void quitterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
+                if (clickedButton == btnTableauDeBord)
+                {
+                    lblWelcomeTitle.Visible = true;
+                    lblWelcomeSubtitle.Visible = true;
+                    flowLayoutPanelStats.Visible = true;
+                    mainContentPanel.Controls.Clear(); // Clear any loaded form
+                }
+                else if (clickedButton == btnGestionEtudiants)
+                {
+                    ShowFormInPanel(new frmGestionEtudiants());
+                }
+                else if (clickedButton == btnGestionFilieres)
+                {
+                    ShowFormInPanel(new frmGestionFilieres());
+                }
+                else if (clickedButton == btnSaisieNotes)
+                {
+                    ShowFormInPanel(new frmSaisieNotes());
+                }
+                else if (clickedButton == btnImpressionReleves)
+                {
+                    ShowFormInPanel(new frmImpressionReleves());
+                }
+                else if (clickedButton == btnStatistiques)
+                {
+                    ShowFormInPanel(new frmStatistiques());
+                }
+                else if (clickedButton == btnQuitter)
+                {
+                    Application.Exit();
+                }
+            }
         }
     }
 }

@@ -99,5 +99,15 @@ namespace ISGA.GestionNotes.DAL
                 command.ExecuteNonQuery();
             }
         }
+
+        public int GetEtudiantCount()
+        {
+            using (var connection = ConnexionDB.GetConnection())
+            {
+                var command = new SqlCommand("SELECT COUNT(*) FROM Etudiants", connection);
+                connection.Open();
+                return (int)command.ExecuteScalar();
+            }
+        }
     }
 }

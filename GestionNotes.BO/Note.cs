@@ -5,7 +5,7 @@ namespace ISGA.GestionNotes.BO
     {
         public int ID_Note { get; set; }
         public int ID_Etudiant { get; set; }
-        public string Matiere { get; set; } = string.Empty;
+        public int ID_Matiere { get; set; }
         public double Valeur { get; set; }
         public DateTime DateNote { get; set; }
     }

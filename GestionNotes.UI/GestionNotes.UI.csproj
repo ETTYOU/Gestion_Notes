@@ -16,4 +16,8 @@
     <ProjectReference Include="..\GestionNotes.DAL\GestionNotes.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Src\image\" />
+  </ItemGroup>
+
 </Project>

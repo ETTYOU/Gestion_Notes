@@ -8,11 +8,13 @@ namespace ISGA.GestionNotes.BLL
     {
         private readonly EtudiantDAO _etudiantDAO;
         private readonly FiliereDAO _filiereDAO;
+        private readonly MatiereDAO _matiereDAO;
 
         public GestionAcademiqueService()
         {
             _etudiantDAO = new EtudiantDAO();
             _filiereDAO = new FiliereDAO();
+            _matiereDAO = new MatiereDAO();
         }
 
         public void AddEtudiant(Etudiant etudiant)
@@ -63,6 +65,31 @@ namespace ISGA.GestionNotes.BLL
         public void DeleteFiliere(int id)
         {
             _filiereDAO.DeleteFiliere(id);
+        }
+
+        public int GetEtudiantCount()
+        {
+            return _etudiantDAO.GetEtudiantCount();
+        }
+
+        public int GetFiliereCount()
+        {
+            return _filiereDAO.GetFiliereCount();
+        }
+
+        public List<Matiere> GetMatieresByFiliere(int idFiliere)
+        {
+            return _matiereDAO.GetMatieresByFiliere(idFiliere);
+        }
+
+        public Matiere GetMatiere(int id)
+        {
+            return _matiereDAO.GetMatiere(id);
+        }
+
+        public List<Matiere> GetAllMatieres()
+        {
+            return _matiereDAO.GetAllMatieres();
         }
     }
 }

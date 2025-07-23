@@ -10,7 +10,7 @@ namespace ISGA.GestionNotes.UI.Forms
         private System.Windows.Forms.Label lblEtudiant;
         private System.Windows.Forms.ComboBox cmbEtudiant;
         private System.Windows.Forms.Label lblMatiere;
-        private System.Windows.Forms.TextBox txtMatiere;
+        private System.Windows.Forms.ComboBox cmbMatiere;
         private System.Windows.Forms.Label lblValeur;
         private System.Windows.Forms.NumericUpDown numValeur;
         private System.Windows.Forms.Label lblDateNote;
@@ -46,7 +46,7 @@ namespace ISGA.GestionNotes.UI.Forms
             this.lblEtudiant = new System.Windows.Forms.Label();
             this.cmbEtudiant = new System.Windows.Forms.ComboBox();
             this.lblMatiere = new System.Windows.Forms.Label();
-            this.txtMatiere = new System.Windows.Forms.TextBox();
+            this.cmbMatiere = new System.Windows.Forms.ComboBox();
             this.lblValeur = new System.Windows.Forms.Label();
             this.numValeur = new System.Windows.Forms.NumericUpDown();
             this.lblDateNote = new System.Windows.Forms.Label();
@@ -95,10 +95,11 @@ namespace ISGA.GestionNotes.UI.Forms
             // 
             // txtMatiere
             // 
-            this.txtMatiere.Location = new System.Drawing.Point(100, 257);
-            this.txtMatiere.Name = "txtMatiere";
-            this.txtMatiere.Size = new System.Drawing.Size(200, 20);
-            this.txtMatiere.TabIndex = 4;
+            this.cmbMatiere.FormattingEnabled = true;
+            this.cmbMatiere.Location = new System.Drawing.Point(100, 257);
+            this.cmbMatiere.Name = "cmbMatiere";
+            this.cmbMatiere.Size = new System.Drawing.Size(200, 21);
+            this.cmbMatiere.TabIndex = 4;
             // 
             // lblValeur
             // 
@@ -175,7 +176,7 @@ namespace ISGA.GestionNotes.UI.Forms
             this.Controls.Add(this.lblDateNote);
             this.Controls.Add(this.numValeur);
             this.Controls.Add(this.lblValeur);
-            this.Controls.Add(this.txtMatiere);
+            this.Controls.Add(this.cmbMatiere);
             this.Controls.Add(this.lblMatiere);
             this.Controls.Add(this.cmbEtudiant);
             this.Controls.Add(this.lblEtudiant);

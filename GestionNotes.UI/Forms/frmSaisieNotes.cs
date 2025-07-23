@@ -28,7 +28,14 @@ namespace ISGA.GestionNotes.UI.Forms
 
         private void LoadNotes()
         {
-            dgvNotes.DataSource = _gestionNotesService.GetAllNotes();
+            try
+            {
+                dgvNotes.DataSource = _gestionNotesService.GetAllNotes();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors du chargement des notes : {ex.Message}", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void LoadEtudiants()
@@ -36,17 +43,40 @@ namespace ISGA.GestionNotes.UI.Forms
             cmbEtudiant.DataSource = _gestionAcademiqueService.GetAllEtudiants();
             cmbEtudiant.DisplayMember = "Nom"; // Assuming Etudiant has a 'Nom' property
             cmbEtudiant.ValueMember = "ID_Etudiant";
+            cmbEtudiant.SelectedIndexChanged += CmbEtudiant_SelectedIndexChanged;
+        }
+
+        private void CmbEtudiant_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cmbEtudiant.SelectedValue != null)
+            {
+                int selectedEtudiantId = (int)cmbEtudiant.SelectedValue;
+                Etudiant selectedEtudiant = _gestionAcademiqueService.GetEtudiant(selectedEtudiantId);
+                if (selectedEtudiant != null)
+                {
+                    LoadMatieres(selectedEtudiant.ID_Filiere);
+                }
+            }
+        }
+
+        private void LoadMatieres(int idFiliere)
+        {
+            cmbMatiere.DataSource = _gestionAcademiqueService.GetMatieresByFiliere(idFiliere);
+            cmbMatiere.DisplayMember = "NomMatiere";
+            cmbMatiere.ValueMember = "ID_Matiere";
         }
 
         private void dgvNotes_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvNotes.SelectedRows.Count > 0)
             {
-                Note selectedNote = (Note)dgvNotes.SelectedRows[0].DataBoundItem;
-                cmbEtudiant.SelectedValue = selectedNote.ID_Etudiant;
-                txtMatiere.Text = selectedNote.Matiere;
-                numValeur.Value = (decimal)selectedNote.Valeur;
-                dtpDateNote.Value = selectedNote.DateNote;
+                if (dgvNotes.SelectedRows[0].DataBoundItem is Note selectedNote)
+                {
+                    cmbEtudiant.SelectedValue = selectedNote.ID_Etudiant;
+                    cmbMatiere.SelectedValue = selectedNote.ID_Matiere;
+                    numValeur.Value = (decimal)Convert.ToDouble(selectedNote.Valeur);
+                    dtpDateNote.Value = selectedNote.DateNote;
+                }
             }
         }
 
@@ -54,8 +84,8 @@ namespace ISGA.GestionNotes.UI.Forms
         {
             Note newNote = new Note
             {
-                ID_Etudiant = (int)cmbEtudiant.SelectedValue,
-                Matiere = txtMatiere.Text,
+                ID_Etudiant = cmbEtudiant.SelectedValue != null ? (int)cmbEtudiant.SelectedValue : 0,
+                ID_Matiere = cmbMatiere.SelectedValue != null ? (int)cmbMatiere.SelectedValue : 0,
                 Valeur = (double)numValeur.Value,
                 DateNote = dtpDateNote.Value
             };
@@ -68,9 +98,9 @@ namespace ISGA.GestionNotes.UI.Forms
         {
             if (dgvNotes.SelectedRows.Count > 0)
             {
-                Note selectedNote = (Note)dgvNotes.SelectedRows[0].DataBoundItem;
-                selectedNote.ID_Etudiant = (int)cmbEtudiant.SelectedValue;
-                selectedNote.Matiere = txtMatiere.Text;
+                Note? selectedNote = (Note?)dgvNotes.SelectedRows[0].DataBoundItem;
+                selectedNote.ID_Etudiant = cmbEtudiant.SelectedValue != null ? (int)cmbEtudiant.SelectedValue : 0;
+                selectedNote.ID_Matiere = cmbMatiere.SelectedValue != null ? (int)cmbMatiere.SelectedValue : 0;
                 selectedNote.Valeur = (double)numValeur.Value;
                 selectedNote.DateNote = dtpDateNote.Value;
                 _gestionNotesService.UpdateNote(selectedNote);
@@ -87,7 +117,7 @@ namespace ISGA.GestionNotes.UI.Forms
         {
             if (dgvNotes.SelectedRows.Count > 0)
             {
-                Note selectedNote = (Note)dgvNotes.SelectedRows[0].DataBoundItem;
+                Note? selectedNote = (Note?)dgvNotes.SelectedRows[0].DataBoundItem;
                 _gestionNotesService.DeleteNote(selectedNote.ID_Note);
                 LoadNotes();
                 ClearForm();
@@ -101,7 +131,7 @@ namespace ISGA.GestionNotes.UI.Forms
         private void ClearForm()
         {
             cmbEtudiant.SelectedIndex = -1;
-            txtMatiere.Text = string.Empty;
+            cmbMatiere.SelectedIndex = -1;
             numValeur.Value = 0;
             dtpDateNote.Value = DateTime.Now;
         }
